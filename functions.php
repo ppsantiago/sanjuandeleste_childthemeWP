@@ -1,12 +1,9 @@
 <?php
-
-
 /**
  * Theme functions and definitions
  *
  * @package HelloElementor
  */
-
 
 //ShortCodes
 include_once('libs/shortcodes/shortsCodes.php');

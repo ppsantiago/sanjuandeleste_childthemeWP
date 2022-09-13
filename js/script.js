@@ -1,10 +1,6 @@
 (function ($) {
   $(document).on("ready", function () {
-    
-    
-    
-    
-    
+
     /** Boton enviar */
     $("#btn1").on("click", function (e) {
       e.preventDefault();
@@ -39,8 +35,15 @@
         type: "post",
         data: {
           action: "manzanaAction"
+        },beforeSend: function(){
+          $('#loteDiv').css('display', 'none')
+          $('#loteDivLoader').css('display', 'inline')
+          loteDivLoader
         },
         success: function (resultado) {
+          $('#result_form').html('')
+          $('#loteDivLoader').css('display', 'none')
+          $('#loteDiv').css('display', 'inline')
           $("#lote").html("");
           res = JSON.parse(resultado);
 
@@ -72,6 +75,8 @@
         type: "post",
         data: {
           action: "loteAction",
+        },beforeSend: function(){
+          $('#result_form').html('Cargando')
         },
         success: function (resultado) {
           total = loteValue - adelantoValue;
