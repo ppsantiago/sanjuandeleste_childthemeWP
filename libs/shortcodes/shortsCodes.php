@@ -1,14 +1,13 @@
 <?php
 function Calculadora_shortcode($atts, $query)
 {
-	// [Calculadora Cal="99"]
+	// [Calculadora cat_name=""]
 
 	//Parametros del shortcode
 	$atts = shortcode_atts(
 		array(
-			'cat_name' => '353',
-			'lte' => '44'
 			//Valor de parametro por defecto
+			'cat_name' => '353'
 		),
 		$atts,
 		'Calculadora'
