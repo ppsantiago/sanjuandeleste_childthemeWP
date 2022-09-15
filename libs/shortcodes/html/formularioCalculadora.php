@@ -4,13 +4,13 @@
   echo(' <form action="#" method="post">
 
     <label for="name">Nombre:</label>
-    <input type="text" id="name" name="user_name">
+    <input required type="text" id="name" name="user_name" required>
 
     <label for="mail">Correo electrónico:</label>
-    <input type="email" id="mail" name="user_mail">
+    <input required type="email" id="mail" name="user_mail" >
     
     <label for="adelanto">Adelanto</label>
-    <input type="number" id="adelanto" name="adelanto" min="2000" max="25000" step="1000">
+    <input required type="number" id="adelanto" name="adelanto" min="2000" max="25000" step="1000" >
     
     <label for="cuotas">Cuotas</label>
     <select name="cuotas" id="cuotas">
@@ -32,6 +32,7 @@
       <option value="manzana6">Manzana 6</option>
       <option value="manzana7">Manzana 7</option>
     </select>
+    
     <div id="loteDivLoader" style="display : none" class="container">
       <img src="'.$o.'"alt="" style="width: 150px;">
       </div>
@@ -39,9 +40,9 @@
       <label for="lote">Lote</label>
       <select name="lote" id="lote" class="loteSelect">
         </select>
+        <br>
+        <button type="submit" id="btn1">Enviar</button>
       </div>
-    <br>
-    <button id="btn1">Enviar</button>
 
   </form> ');
 
