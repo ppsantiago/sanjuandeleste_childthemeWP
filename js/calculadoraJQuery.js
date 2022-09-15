@@ -1,6 +1,7 @@
 (function ($) {
   $(document).on("ready", function () {
 
+
     /** Boton enviar */
     $("#btn1").on("click", function (e) {
       e.preventDefault();
@@ -10,18 +11,11 @@
         url: dcms_vars.ajaxurl,
         type: "post",
         data: {
-          action: "test_ajax",
+          action: "procesarForm",
           manzana: manzanaValue,
         },
         success: function (resultado) {
-          res = JSON.parse(resultado);
-
-          res.forEach((element) => {
-            if (manzanaValue == element.categoria) {
-              console.log(element.categoria);
-              $("#lote").append("<h1>hola</h1>");
-            }
-          });
+          console.log(resultado)
         },
       });
     });
@@ -78,7 +72,7 @@
         },beforeSend: function(){
           $('#result_form').html('Cargando')
         },
-        success: function (resultado) {
+        success: function () {
           total = loteValue - adelantoValue;
           valorCuota = total / cuotasValue
           $('#result_form').append('<h1>Total: $'+total+'</h1>')

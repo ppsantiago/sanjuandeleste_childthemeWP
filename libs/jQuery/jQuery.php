@@ -58,22 +58,24 @@ function loteAction()
 
 		endwhile;
 		$jsonStr = json_encode($jj);
-		/*
-		while ($the_query->have_posts()) : $the_query->the_post();
-			global $product;
-			$nombre =  get_the_title($the_query->post->ID);
-			$precio = $product->get_price();
-			$cat2 = get_the_terms($the_query->ID, 'product_cat');
-			foreach ($cat2 as $valor) {
-				$categoria = $valor->slug;
-			}
-			$jj[] = array('nombre' => $nombre, 'precio' => $precio, 'categoria' => $categoria);
-			$o++;
-		endwhile;
-
-		$jsonStr = json_encode($jj);
-		 **/
 		echo $jsonStr;
+	}
+
+	wp_die();
+}
+
+
+
+
+// procesarForm() llamada desde AJAX
+add_action('wp_ajax_nopriv_procesarForm', 'procesarForm');
+add_action('wp_ajax_procesarForm', 'procesarForm');
+function procesarForm()
+{
+	if (isset($_REQUEST)) {
+		$manzana =  $_REQUEST['manzana'];
+	
+		echo $manzana;
 	}
 
 	wp_die();

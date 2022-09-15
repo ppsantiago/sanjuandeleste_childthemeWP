@@ -1,5 +1,7 @@
-  <?php ?>
-  <form action="#" method="post">
+  <?php
+  $o = get_stylesheet_directory_uri().'/img/loader.gif' ;
+  
+  echo(' <form action="#" method="post">
 
     <label for="name">Nombre:</label>
     <input type="text" id="name" name="user_name">
@@ -31,7 +33,7 @@
       <option value="manzana7">Manzana 7</option>
     </select>
     <div id="loteDivLoader" style="display : none" class="container">
-      <img src="<?php echo get_stylesheet_directory_uri().'/img/loader.gif' ?>"alt="" style="width: 150px;">
+      <img src="'.$o.'"alt="" style="width: 150px;">
       </div>
     <div id="loteDiv">
       <label for="lote">Lote</label>
@@ -40,4 +42,8 @@
       </div>
     <br>
     <button id="btn1">Enviar</button>
-  </form>
+
+  </form> ');
+
+
+  ?>
