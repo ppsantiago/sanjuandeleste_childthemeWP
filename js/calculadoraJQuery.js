@@ -83,6 +83,16 @@
         },
       });
     };
+
+
+    const mnzLoadwidget = () =>{
+      //[elementor-template id="1182"]
+      $("#shortmap").html('[elementor-template id="1182"]')
+
+    }
+
+
+
     // End Actions Function
 
     /** Boton enviar */
@@ -106,6 +116,8 @@
     /** Selector para el selector de manzanas */
     $("#manzanas").on("change", function () {
       mnzAction();
+      mnzLoadwidget();
+      
     });
 
     /** Cambio de Lote, calculo y prevista
@@ -118,11 +130,23 @@
       loadResult();
     });
 
+
+    $("#adelanto").on("change", function () {
+      var lote = document.getElementById("lote");
+      var loteValue = lote.value;
+      
+      if (!loteValue.length == 0) {
+        console.log(lote.text)
+        clenHTML("result_form");
+        loadResult();
+      }
+    });
+
     $("#cuotas").on("change", function () {
       var lote = document.getElementById("lote");
       var loteValue = lote.value;
 
-      if (lote.value !== "") {
+      if (!loteValue.length == 0) {
         clenHTML("result_form");
         loadResult();
       }
