@@ -30,7 +30,7 @@ function manzanaAction()
 			foreach ($cat2 as $valor) {
 				$categoria = $valor->slug;
 			}
-			$jj[] = array('postID' =>$postID,'nombre' => $nombre, 'precio' => $precio, 'categoria' => $categoria);
+			$jj[] = array('postID' => $postID, 'nombre' => $nombre, 'precio' => $precio, 'categoria' => $categoria);
 		endwhile;
 
 		$jsonStr = json_encode($jj);
@@ -74,7 +74,7 @@ function procesarForm()
 {
 	if (isset($_REQUEST)) {
 		$manzana =  $_REQUEST['manzana'];
-	
+
 		echo $manzana;
 	}
 
@@ -82,4 +82,48 @@ function procesarForm()
 }
 
 
-?>
+add_action('wp_ajax_nopriv_procesarFormIndividual', 'procesarFormIndividual');
+add_action('wp_ajax_procesarFormIndividual', 'procesarFormIndividual');
+function procesarFormIndividual()
+{
+	if (isset($_REQUEST)) {
+		$data =  $_REQUEST['data'];
+
+		echo $data;
+	}
+
+	wp_die();
+}
+
+add_action('wp_ajax_nopriv_getPostID', 'getPostID');
+add_action('wp_ajax_getPostID', 'getPostID');
+function getPostID()
+{
+
+	if (isset($_REQUEST)) {
+		$data =  $_REQUEST['data'];
+		$loteID = url_to_postid($data);
+
+		$args = array(
+			'post_type' => 'product',
+			'posts_per_page' => 1,
+			'post__in' => array($loteID)
+		);
+		$the_query = new WP_Query($args);
+
+
+		while ($the_query->have_posts()) : $the_query->the_post();
+			global $product;
+
+			$precio = $product->get_price();
+			$postID = $the_query->post->ID;
+
+			$jj[] = array('precio' => $precio, 'id' =>$postID);
+		endwhile;
+		$jsonStr = json_encode($jj);
+
+		echo $jsonStr;
+	}
+
+	wp_die();
+}

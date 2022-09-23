@@ -1,5 +1,10 @@
 (function ($) {
   $(document).on("ready", function () {
+    /**  Funciones Compartidas -----------------------------
+     *
+     *
+     */
+
     // Start Actions Function ------>
 
     const clenHTML = (id) => {
@@ -19,8 +24,10 @@
 
     // End Actions Function
 
-    // Start Actions Function ------>
-
+    /**  FORMULARIO GENERAL-----------------------------
+     *
+     *
+     */
     const loadResult = () => {
       var lote = document.getElementById("lote");
       var loteValue = lote.value;
@@ -84,20 +91,16 @@
       });
     };
 
-
-    const mnzLoadwidget = () =>{
+    const mnzLoadwidget = () => {
       //[elementor-template id="1182"]
-      $("#shortmap").html('[elementor-template id="1182"]')
-
-    }
-
-
+      $("#shortmap").html('[elementor-template id="1182"]');
+    };
 
     // End Actions Function
 
     /** Boton enviar */
     $("#btn1").on("click", function (e) {
-      //e.preventDefault();
+      e.preventDefault();
       var manzana = document.getElementById("manzanas");
       var manzanaValue = manzana.value;
       $.ajax({
@@ -117,31 +120,26 @@
     $("#manzanas").on("change", function () {
       mnzAction();
       mnzLoadwidget();
-      
     });
 
     /** Cambio de Lote, calculo y prevista
-     * Falta hacer Funcion para que el adelalnto
-     * actualize el total cuando se modifique
-     * ppsantiago - 9/13
      */
     $("#lote").on("change", function () {
       clenHTML("result_form");
       loadResult();
     });
-
-
+    //Evento a la escucha CUOTAS
     $("#adelanto").on("change", function () {
       var lote = document.getElementById("lote");
       var loteValue = lote.value;
-      
+
       if (!loteValue.length == 0) {
-        console.log(lote.text)
+        console.log(lote.text);
         clenHTML("result_form");
         loadResult();
       }
     });
-
+    //Evento a la escucha ADELANTO
     $("#cuotas").on("change", function () {
       var lote = document.getElementById("lote");
       var loteValue = lote.value;
@@ -150,6 +148,87 @@
         clenHTML("result_form");
         loadResult();
       }
+    });
+
+    /**  FORMULARIO INDIVIDUAL-----------------------------
+     *
+     *
+     */
+
+    // recarga div de resultado segun parametros
+    const loadResultindividual = (loteID, lotePrice) => {
+      var loteValue = lotePrice;
+      var adelanto = document.getElementById("adelantoIndividual");
+      var adelantoValue = adelanto.value;
+      var cuotas = document.getElementById("cuotasIndividual");
+      var cuotasValue = cuotas.value;
+      $.ajax({
+        url: dcms_vars.ajaxurl,
+        type: "post",
+        data: {
+          action: "loteAction",
+          data: loteID,
+        },
+        beforeSend: function () {
+          loaderA(true, "resultDetail");
+        },
+        success: function () {
+          total = loteValue - adelantoValue;
+          valorCuota = total / cuotasValue;
+          loaderA(false, "resultDetail");
+          clenHTML("resultDetail");
+          $("#resultDetail").append("<h3>Resumen del resultado</h3>");
+          $("#resultDetail").append("<h1>Total: $" + total + "</h1>");
+          $("#resultDetail").append(
+            "<h4>Valor de la cuota: $" + parseInt(valorCuota) + "</h4>"
+          );
+        },
+      });
+    };
+
+    //Evento a la escucha CUOTAS
+    $("#cuotasIndividual").on("change", async function () {
+      var loteURL = document.URL;
+
+      $.ajax({
+        url: dcms_vars.ajaxurl,
+        type: "post",
+        data: {
+          action: "getPostID",
+          data: loteURL,
+        },
+        beforeSend: function () {
+          console.log("beforesend");
+        },
+        success: function (resultado) {
+          res = JSON.parse(resultado);
+          res.forEach((element) => {
+            loadResultindividual(element.id, element.precio);
+          });
+        },
+      });
+    });
+
+    //Evento a la escucha ADELANTO
+    $("#adelantoIndividual").on("change", async function () {
+      var loteURL = document.URL;
+      $.ajax({
+        url: dcms_vars.ajaxurl,
+        type: "post",
+        data: {
+          action: "getPostID",
+          data: loteURL,
+        },
+        beforeSend: function () {
+          console.log("beforesend");
+        },
+        success: function (resultado) {
+          res = JSON.parse(resultado);
+          res.forEach((element) => {
+            loadResultindividual(element.id, element.precio);
+          });
+        },
+      });
     });
   });
 })(jQuery);

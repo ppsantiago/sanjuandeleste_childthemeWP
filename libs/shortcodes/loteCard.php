@@ -32,7 +32,7 @@ function LoteToolDesc_shortcode($atts, $query)
 		}
 
 	endwhile;
-	return $nombre . "<br>Precio: $" . $precio . ".-<br>" . $categoria . "<br>Calculadora: <a href=" . $calculadora . ">Calculadora</a><br>Ver: <a href=" . $enlace . ">$nombre</a><br>Dimension: " . $dimension . "M²";
+	return $nombre . "<br>Precio: $" . $precio . ".-<br>" . $categoria . "<br>Calculadora para: <a href=" . $enlace . ">$nombre</a><br>Dimension: " . $dimension . "M²";
 }
 add_shortcode('LoteToolDesc', 'LoteToolDesc_shortcode');
 
