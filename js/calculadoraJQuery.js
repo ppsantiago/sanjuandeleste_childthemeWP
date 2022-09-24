@@ -223,6 +223,7 @@
           console.log("beforesend");
         },
         success: function (resultado) {
+          console.log(resultado)
           res = JSON.parse(resultado);
           res.forEach((element) => {
             loadResultindividual(element.id, element.precio);
