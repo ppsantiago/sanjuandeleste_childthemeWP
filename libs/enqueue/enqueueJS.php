@@ -6,11 +6,13 @@ function qg_enqueue()
 		'qgjs',
 		get_stylesheet_directory_uri() . '/js/calculadoraJQuery.js',
 		array('jquery'),
-		time(),
+		time()
 	);
 
 	wp_localize_script('qgjs', 'dcms_vars', ['ajaxurl' => admin_url('admin-ajax.php')]);
 }
+
+
 
 ?>
 
