@@ -12,15 +12,19 @@
     };
 
     //pasar bool para saber si arranca o termina el loader
-    const loaderA = (run = Boolean, id = String) => {
-      if (run == true) {
-        $("#" + id).css("display", "none");
-        $("#" + id + "Loader").css("display", "inline");
+    const loaderA = (run = Boolean, idform = String, idloader) => {
+      if (run === true) {
+        $("#" + idform).css("display", "none");
+        $("#" + idloader).css("display", "inline");
       } else {
-        $("#" + id + "Loader").css("display", "none");
-        $("#" + id).css("display", "inline");
-      }
-    };
+        $("#" + idloader).css("display", "none");
+        $("#" + idform).css("display", "inline");
+      }};
+ 	$("#btnPrint").on("click", function (e) {
+		e.preventDefault();
+		console.log('Run print')
+	});
+
 
     // End Actions Function
 
@@ -42,12 +46,12 @@
           action: "loteAction",
         },
         beforeSend: function () {
-          loaderA(true, "loteDiv");
+          loaderA(true, "loteDiv", "Loader");
         },
         success: function () {
           total = loteValue - adelantoValue;
           valorCuota = total / cuotasValue;
-          loaderA(false, "loteDiv");
+          loaderA(false, "loteDiv", "Loader");
           clenHTML("result_form");
           $("#result_form").append("<h1>Total: $" + total + "</h1>");
           $("#result_form").append(
@@ -67,11 +71,11 @@
           action: "manzanaAction",
         },
         beforeSend: function () {
-          loaderA(true, "loteDiv");
+          loaderA(true, "loteDiv", "Loader");
         },
         success: function (resultado) {
           clenHTML("result_form");
-          loaderA(false, "loteDiv");
+          loaderA(false, "loteDiv", "Loader");
           clenHTML("lote");
 
           res = JSON.parse(resultado);
@@ -133,7 +137,7 @@
       var lote = document.getElementById("lote");
       var loteValue = lote.value;
 
-      if (!loteValue.length == 0) {
+      if (loteValue.length !== 0) {
         console.log(lote.text);
         clenHTML("result_form");
         loadResult();
@@ -144,7 +148,7 @@
       var lote = document.getElementById("lote");
       var loteValue = lote.value;
 
-      if (!loteValue.length == 0) {
+      if (loteValue.length !== 0) {
         clenHTML("result_form");
         loadResult();
       }
@@ -170,12 +174,12 @@
           data: loteID,
         },
         beforeSend: function () {
-          loaderA(true, "resultDetail");
+          loaderA(true, "resultDetail", "Loader");
         },
         success: function () {
           total = loteValue - adelantoValue;
           valorCuota = total / cuotasValue;
-          loaderA(false, "resultDetail");
+          loaderA(false, "resultDetail", "Loader");
           clenHTML("resultDetail");
           $("#resultDetail").append("<h3>Resumen del resultado</h3>");
           $("#resultDetail").append("<h1>Total: $" + total + "</h1>");
@@ -187,7 +191,7 @@
     };
 
     //Evento a la escucha CUOTAS
-    $("#cuotasIndividual").on("change", async function () {
+    $("#cuotasIndividual").on("change", function () {
       var loteURL = document.URL;
 
       $.ajax({
@@ -198,19 +202,20 @@
           data: loteURL,
         },
         beforeSend: function () {
-          console.log("beforesend");
+          console.log("Load animation");
+          loaderA(true, "calculadoraForm", "Loader");
         },
         success: function (resultado) {
           res = JSON.parse(resultado);
           res.forEach((element) => {
             loadResultindividual(element.id, element.precio);
           });
-        },
-      });
+          loaderA(false, "calculadoraForm", "Loader");
+        },});
     });
 
     //Evento a la escucha ADELANTO
-    $("#adelantoIndividual").on("change", async function () {
+    $("#adelantoIndividual").on("change", function () {
       var loteURL = document.URL;
       $.ajax({
         url: dcms_vars.ajaxurl,
@@ -221,13 +226,13 @@
         },
         beforeSend: function () {
           console.log("beforesend");
-        },
-        success: function (resultado) {
-          console.log(resultado)
+          loaderA(true, "calculadoraForm", "Loader");
+        },success: function (resultado) {
           res = JSON.parse(resultado);
           res.forEach((element) => {
             loadResultindividual(element.id, element.precio);
           });
+          loaderA(false, "calculadoraForm", "Loader");
         },
       });
     });

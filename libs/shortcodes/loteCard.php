@@ -9,7 +9,7 @@ function LoteToolDesc_shortcode($atts, $query)
 		$atts,
 		'LoteToolDesc'
 	);
-
+ 
 	$args = ['p' => $atts['lote_id'], 'post_type' => 'product'];
 	$loop = new WP_Query($args);
 
