@@ -5,6 +5,9 @@
 ### [Calculadora]
 Calculadora de costo por lote
 
+### [CalculadoraIndividual]
+Calculadora de costo por lote en single product page
+
 
 ### [LoteToolDesc lote_id=POST_ID]
 Tarjeta html para tooltip
